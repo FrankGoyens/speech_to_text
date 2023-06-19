@@ -437,27 +437,27 @@ public class SpeechToTextPlugin: NSObject, FlutterPlugin {
       os_log(
         "Error removing trap: %{PUBLIC}@", log: pluginLog, type: .error, error.localizedDescription)
     }
-    #if os(iOS)
-      do {
-        if let rememberedAudioCategory = rememberedAudioCategory,
-          let rememberedAudioCategoryOptions = rememberedAudioCategoryOptions
-        {
-          try self.audioSession.setCategory(
-            rememberedAudioCategory, options: rememberedAudioCategoryOptions)
-        }
-      } catch {
-        os_log(
-          "Error stopping listen: %{PUBLIC}@", log: pluginLog, type: .error,
-          error.localizedDescription)
-      }
-      do {
-        try self.audioSession.setActive(false, options: .notifyOthersOnDeactivation)
-      } catch {
-        os_log(
-          "Error deactivation: %{PUBLIC}@", log: pluginLog, type: .info, error.localizedDescription)
-      }
+    // #if os(iOS)
+    //   do {
+    //     if let rememberedAudioCategory = rememberedAudioCategory,
+    //       let rememberedAudioCategoryOptions = rememberedAudioCategoryOptions
+    //     {
+    //       try self.audioSession.setCategory(
+    //         rememberedAudioCategory, options: rememberedAudioCategoryOptions)
+    //     }
+    //   } catch {
+    //     os_log(
+    //       "Error stopping listen: %{PUBLIC}@", log: pluginLog, type: .error,
+    //       error.localizedDescription)
+    //   }
+    //   do {
+    //     try self.audioSession.setActive(false, options: .notifyOthersOnDeactivation)
+    //   } catch {
+    //     os_log(
+    //       "Error deactivation: %{PUBLIC}@", log: pluginLog, type: .info, error.localizedDescription)
+    //   }
 
-    #endif
+    // #endif
     self.invokeFlutter(
       SwiftSpeechToTextCallbackMethods.notifyStatus, arguments: SpeechToTextStatus.done.rawValue)
 
@@ -505,15 +505,15 @@ public class SpeechToTextPlugin: NSObject, FlutterPlugin {
       #if os(iOS)
         rememberedAudioCategory = self.audioSession.category
         rememberedAudioCategoryOptions = self.audioSession.categoryOptions
-        try self.audioSession.setCategory(
-          AVAudioSession.Category.playAndRecord,
-          options: [.defaultToSpeaker, .allowBluetooth, .allowBluetoothA2DP, .mixWithOthers])
+        // try self.audioSession.setCategory(
+        //   AVAudioSession.Category.playAndRecord,
+        //   options: [.defaultToSpeaker, .allowBluetooth, .allowBluetoothA2DP, .mixWithOthers])
         //            try self.audioSession.setMode(AVAudioSession.Mode.measurement)
-        if sampleRate > 0 {
-          try self.audioSession.setPreferredSampleRate(Double(sampleRate))
-        }
-        try self.audioSession.setMode(AVAudioSession.Mode.default)
-        try self.audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        // if sampleRate > 0 {
+        //   try self.audioSession.setPreferredSampleRate(Double(sampleRate))
+        // }
+        // try self.audioSession.setMode(AVAudioSession.Mode.default)
+        // try self.audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         if #available(iOS 13.0, *) {
           try self.audioSession.setAllowHapticsAndSystemSoundsDuringRecording(enableHaptics)
         }
